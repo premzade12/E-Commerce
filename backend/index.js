@@ -9,6 +9,6 @@ app.get('/',(req,res)=>{
 })
 
 app.listen(port, ()=>{
-    console.log("Hello From Srver");
+    console.log("Hello From Server");
 })
 
