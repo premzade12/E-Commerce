@@ -2,6 +2,7 @@ import {React,useContext,useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { authDataContext } from "../context/authContext";
 import axios from 'axios'
+import { getCurrentUser } from "../../../backend/controller/UserController";
 
 const Registration = () => {
   const navigate = useNavigate();
@@ -17,7 +18,9 @@ const Registration = () => {
             name,email,password
         },{withCredentials:true})
         console.log(result.data)
+        getCurrentUser()
         navigate("/");
+        console.log(result.data)
       } catch (e) {
         console.log(e)
       }
