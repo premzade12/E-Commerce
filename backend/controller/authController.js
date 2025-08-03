@@ -92,7 +92,7 @@ export const googleLogin = async(req,res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    return res.status(201).json(user);
+    return res.status(200).json(user);
   } catch (error) {
     console.log("Google Login error");
     return res.status(500).json({ message: `Google Login error ${error}` });
