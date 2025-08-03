@@ -9,7 +9,7 @@ const Login = () => {
       const [email, setEmail] = useState("")
       const [password, setPassword] = useState("")
 
-  const handleSignup =async (e) => {
+  const handleLogin =async (e) => {
       e.preventDefault()
       try {
         const result = await axios.post(serverUrl + '/api/auth/login',{
@@ -46,7 +46,7 @@ const Login = () => {
       </div>
 
       {/* Form */}
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-gray-200 p-8" onSubmit={handleSignup}>
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-gray-200 p-8" onSubmit={handleLogin}>
         <form className="flex flex-col gap-6">
           {/* Google Button */}
           <button

@@ -17,6 +17,7 @@ const Registration = () => {
             name,email,password
         },{withCredentials:true})
         console.log(result.data)
+        navigate("/");
       } catch (e) {
         console.log(e)
       }
