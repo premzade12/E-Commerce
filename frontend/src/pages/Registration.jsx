@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { authDataContext } from "../context/authContext";
 import axios from 'axios'
 import { getCurrentUser } from "../../../backend/controller/UserController";
+import { signInWithPopup } from "firebase/auth";
+import { auth, provider } from "../../utils/Firebase";
+
 
 const Registration = () => {
   const navigate = useNavigate();
@@ -23,6 +26,21 @@ const Registration = () => {
         console.log(result.data)
       } catch (e) {
         console.log(e)
+      }
+    }
+
+    const googleSignup = async () => {
+      try {
+        const response = await signInWithPopup(auth,provider);
+        let user =response.user;
+        let name = user.displayName;
+        let email = user.email;
+
+        const result = await axios.post(serverUrl + "/api/auth/googlelogin", {name,email}, {withCredentials: true});
+        console.log(result.data);
+      } catch (error) {
+        console.log("Google Error");
+        alert("Google login failed. Please try again.");
       }
     }
     
@@ -55,6 +73,7 @@ const Registration = () => {
           {/* Google Button */}
           <button
             type="button"
+            onClick={googleSignup}
             className="flex items-center justify-center gap-3 bg-white border border-gray-300 text-gray-700 hover:text-blue-600 hover:border-blue-400 px-5 py-3 rounded-xl text-sm font-semibold shadow-sm hover:shadow-md transition-all duration-300 ease-in-out"
           >
             <span className="w-6 h-6 flex items-center justify-center rounded-full bg-white">
