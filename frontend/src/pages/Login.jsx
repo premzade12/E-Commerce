@@ -1,8 +1,26 @@
-import React from "react";
+import {React, useContext, useState} from "react";
 import { useNavigate } from "react-router-dom";
+import { authDataContext } from "../context/authContext";
+import axios from 'axios'
 
 const Login = () => {
   const navigate = useNavigate();
+      let {serverUrl}=useContext(authDataContext)
+      const [email, setEmail] = useState("")
+      const [password, setPassword] = useState("")
+
+  const handleSignup =async (e) => {
+      e.preventDefault()
+      try {
+        const result = await axios.post(serverUrl + '/api/auth/login',{
+            email,password
+        },{withCredentials:true})
+        console.log(result.data);
+        navigate("/");
+      } catch (e) {
+        console.log(e)
+      }
+    }
 
   return (
     <div className="bg-gradient-to-br from-[#eef1f5] to-[#dfe4ea] min-h-screen flex flex-col items-center px-4 py-6">
@@ -28,7 +46,7 @@ const Login = () => {
       </div>
 
       {/* Form */}
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-gray-200 p-8" onSubmit={handleSignup}>
         <form className="flex flex-col gap-6">
           {/* Google Button */}
           <button
@@ -55,12 +73,14 @@ const Login = () => {
               type="email"
               placeholder="Email"
               required
+              onChange={(e)=>setEmail(e.target.value)} value={email}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm placeholder-gray-400 transition-all"
             />
             <input
               type="password"
               placeholder="Password"
               required
+              onChange={(e)=>setPassword(e.target.value)} value={password}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm placeholder-gray-400 transition-all"
             />
           </div>
