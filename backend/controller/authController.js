@@ -15,6 +15,7 @@ export const registration = async (req, res) => {
     }
 
     if (password.length < 8) {
+        console.log("Enter Strong Password");
       return res.status(400).json({ message: "Enter Stong Password" });
     }
     let hashPassword = await bcrypt.hash(password, 10);
