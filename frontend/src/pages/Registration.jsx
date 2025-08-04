@@ -13,10 +13,16 @@ const Registration = () => {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [error, setError] = useState("");
 
     const handleSignup =async (e) => {
       e.preventDefault()
       try {
+        if (password.length < 8) {
+      setError("Enter strong password (min 8 characters)");
+    } else {
+      setError("");
+    }
         const result = await axios.post(serverUrl + '/api/auth/registration',{
             name,email,password
         },{withCredentials:true})
@@ -28,6 +34,8 @@ const Registration = () => {
         console.log(e)
       }
     }
+
+    
 
     const googleSignup = async () => {
       try {
@@ -69,7 +77,7 @@ const Registration = () => {
 
       {/* Form */}
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
-        <form className="flex flex-col gap-6" onSubmit={handleSignup}>
+        <form className="flex flex-col gap-4" onSubmit={handleSignup}>
           {/* Google Button */}
           <button
             type="button"
@@ -114,12 +122,20 @@ const Registration = () => {
             />
           </div>
 
+          {error && (
+            <div className="text-red-600 text-xs text-center font-medium">
+              {error}
+            </div>
+          )}
+
           <button
             type="submit"
             className="bg-slate-700 hover:bg-slate-800 text-white py-3 rounded-xl text-sm font-semibold shadow-md hover:shadow-lg transition duration-300 ease-in-out"
           >
             Create Account
           </button>
+          
+          
           <p className="flex gap-[6px] justify-center">Already have an account? <span className="text-[#5555f6cf] text-[17px] font-semibold cursor-pointer" onClick={()=>navigate("/login")}>Login</span></p>
         </form>
       </div>
