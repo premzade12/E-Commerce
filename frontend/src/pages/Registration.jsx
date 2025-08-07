@@ -46,6 +46,8 @@ const Registration = () => {
 
         const result = await axios.post(serverUrl + "/api/auth/googlelogin", {name,email}, {withCredentials: true});
         console.log(result.data);
+        getCurrentUser()
+        navigate("/");
       } catch (error) {
         console.log("Google Error");
         alert("Google login failed. Please try again.");
