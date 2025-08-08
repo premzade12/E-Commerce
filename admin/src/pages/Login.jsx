@@ -3,6 +3,8 @@ import logo from "../assets/logo.svg";
 import axios from 'axios'
 import { useContext } from "react";
 import { authDataContext } from "../context/AuthContext";
+import { adminDataContext } from "../context/AdminContext";
+import { useNavigate } from "react-router-dom";
 
 
 function Login() {
@@ -10,12 +12,16 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   let {serverUrl} = useContext(authDataContext)
-  
+  let {adminData , getAdmin} = useContext(adminDataContext)
+ let navigate = useNavigate()
+
   const AdminLogin = async (e) => {
     e.preventDefault()
     try {
         const result= await axios.post(serverUrl + '/api/auth/adminLogin',{email,password},{withCredentials:true})
         console.log(result.data)
+        getAdmin()
+        navigate("/")
     } catch (error) {
         console.log(error)
     }
