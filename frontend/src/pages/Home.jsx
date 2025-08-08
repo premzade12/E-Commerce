@@ -24,9 +24,8 @@ const Home = () => {
     <div className="overflow-x-hidden relative">
       <div className="relative w-screen h-[40vh] sm:h-[50vh] md:h-[70vh] lg:h-[100vh] bg-gradient-to-l from-[#141414] to-[#0c2025] flex justify-baseline sm:flex-row">
         
-        
         {/* Hero content */}
-        <div className=" lg:w-full md:w-full sm:w-1/2 flex items-center justify-between p-4 sm:p-8">
+        <div className="lg:w-full md:w-full h-[100vh] sm:w-1/2 flex items-center justify-between ">
           <Hero
             heroCount={heroCount}
             setHeroCount={setHeroCount}
@@ -34,10 +33,10 @@ const Home = () => {
             className="text-center sm:text-left"
           />
 
-          {/* Background image: full width on mobile, half on sm+ */}
+          {/* Background image with full viewport height */}
           <Background
             heroCount={heroCount}
-            className="lg:w-1/2 md:w-1/2 sm:w-1/2 h-[40vh] sm:h-full object-cover"
+            className="lg:w-[40%] md:w-1/2 sm:w-1/2 h-[100vh] object-cover"
           />
         </div>
       </div>
