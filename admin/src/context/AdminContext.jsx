@@ -4,6 +4,7 @@ import {authDataContext} from './AuthContext'
 import { useEffect } from 'react'
 import axios from 'axios'
 
+
 export const adminDataContext = createContext()
 const AdminContext = ({children}) => {
 
@@ -13,7 +14,7 @@ const AdminContext = ({children}) => {
   const getAdmin = async () => {
      
      try {
-      let result = await axios.get(serverUrl + "/api/user/getadmin",{withcredentials:true})
+      let result = await axios.get(serverUrl + "/api/user/getadmin",{withCredentials:true})
 
      setadminData(result.data)
      console.log(result.data)
