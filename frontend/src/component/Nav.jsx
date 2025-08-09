@@ -73,7 +73,7 @@ function Nav() {
             px-[5px] py-[2px] text-white rounded-full text-[9px] top-[10px] right-[23px] hidden'>10</p>
         </div>
         {showSearch && <div className='w-[100%] h-[80px] bg-[#d8f6f9dd] absolute top-[100%] left-0 right-0 flex items-center justify-center'>
-            <input type="text" className='w-[50%] h-[60%] bg-[#233533] rounded-[30px] px-[50px]
+            <input type="text" className='lg:w-[50%] w-[80%] h-[60%] bg-[#233533] rounded-[30px] px-[50px]
              placeholder:text-white text-white text-[18px]' placeholder='Search here'/>
         </div>}
 
@@ -106,8 +106,11 @@ function Nav() {
             
             <button className='text-[white] flex items-center justify-center flex-col gap-[2px]'>
                 <MdOutlineShoppingCart className='w-[30px] h-[30px] text-white md:hidden onClick={()=>navigate("/cart")}'/>Cart</button>
+            
+            <p className='absolute w-[18px] h-[18px] flex items-center justify-center bg-white px-[5px] py-[2px] text-black font-semibold 
+            rounded-full text-[9px] top-[8px] right-[18px]'>10</p>
         </div>
-    </div>
+    </div>   
   )
 }
 
