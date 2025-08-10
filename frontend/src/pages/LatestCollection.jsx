@@ -23,15 +23,19 @@ function LatestCollection() {
       </div>
 
       <div className="w-full h-[50%] mt-[30px] flex items-center justify-center flex-wrap gap-[50px]">
-        {latestProducts.map((item, index) => (
-          <Card
-            key={index}
-            name={item.name}
-            image={item.image1}
-            id={item._id}
-            price={item.price}
-          />
-        ))}
+        {latestProducts.length === 0 ? (
+  <p className="text-white text-center">No products available</p>
+) : (
+  latestProducts.map((item) => (
+    <Card
+      key={item._id}
+      name={item.name}
+      image={item.image1}
+      id={item._id}
+      price={item.price}
+    />
+  ))
+)}
       </div>
     </div>
   );

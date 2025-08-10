@@ -26,7 +26,7 @@ function ShopContext({children}) {
     },[])
 
     let value = {
-        products, currency, delivery_fee, getProducts
+        products, currency, delivery_fee, getProducts,
     }
   return (
     <div>
