@@ -33,3 +33,14 @@ export const addProduct = async (req,res) => {
     return res.status(500).json({ message: `Add Product error ${error}` });
   }
 }
+
+
+export const listProduct = async (req,res) => {
+  try {
+    const product = await Product.find({});
+    return res.status(200).json(product);
+  } catch (error) {
+    console.log("ListProduct error");
+    return res.status(500).json({message:`ListProduct error ${error}`})
+  }
+}

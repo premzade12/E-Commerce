@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import { authDataContext } from './authContext';
 import axios from 'axios';
 
@@ -14,14 +14,19 @@ function ShopContext({children}) {
     const getProducts = async () => {
         try {
             let result = await axios.get(serverUrl + "/api/product/list");
-            
+            console.log(result.data);
+            setProducts(result.data);
         } catch (error) {
-            
+            console.log(error);
         }
     }
 
-    let value = {
+    useEffect(() => {
+        getProducts();
+    },[])
 
+    let value = {
+        products, currency, delivery_fee, getProducts
     }
   return (
     <div>
