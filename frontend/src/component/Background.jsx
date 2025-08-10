@@ -15,7 +15,12 @@ function Background({ heroCount, className }) {
     <img
       src={src}
       alt=""
-      className={`${className} w-full sm:w-1/2 h-screen object-fill`} // fixed width & height auto
+      className={`
+        ${className}
+        w-full 
+        h-[70vh] sm:h-[60vh] md:h-[70vh] lg:h-screen
+        object-cover object-center
+      `}
     />
   );
 }

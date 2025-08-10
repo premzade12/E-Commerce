@@ -1,27 +1,29 @@
-import React from 'react'
+import React from 'react';
 import { FaCircle } from "react-icons/fa";
 
-
-const Hero = ({heroData,heroCount,setHeroCount}) => {
+const Hero = ({ heroData, heroCount, setHeroCount }) => {
   return (
-    <div className='w-[40%] h-[100%] relative' >
-      <div className='absolute text-[#88d9ee] text-[20px] md:text-[40px] lg:text-[55px] md:left-[10%]
-      md:top-[90px] lg:top-[130px] left-[10%] top-[10px]'>
+    <div className="w-full h-full relative flex flex-col items-center sm:items-start justify-center">
+      {/* Hero text */}
+      <div className="mb-4 sm:mb-0 text-black font-bold sm:text-[#88d9ee] sm:font-normal text-[20px] sm:text-2xl md:text-[40px] lg:text-[55px] text-center sm:text-left">
         <p>{heroData.text1}</p>
         <p>{heroData.text2}</p>
       </div>
-      <div className='absolute  md:top-[650px] lg:top-[650px] top-[10%] left-[10%] flex items-center justify-center gap-[10px]'>
-        <FaCircle className={`w-[14px] ${heroCount===0?"fill-orange-400":"fill-white"}`} 
-        onClick={()=>setHeroCount(0)} />
-        <FaCircle className={`w-[14px] ${heroCount===1?"fill-orange-400":"fill-white"}`} 
-        onClick={()=>setHeroCount(1)} />
-        <FaCircle className={`w-[14px] ${heroCount===2?"fill-orange-400":"fill-white"}`} 
-        onClick={()=>setHeroCount(2)} />
-        <FaCircle className={`w-[14px] ${heroCount===3?"fill-orange-400":"fill-white"}`} 
-        onClick={()=>setHeroCount(3)} />
+
+      {/* Dots */}
+      <div className="flex items-center justify-center sm:justify-start gap-[10px] text-orange-400">
+        {[0, 1, 2, 3].map((index) => (
+          <FaCircle
+            key={index}
+            className={`w-[14px] cursor-pointer ${
+              heroCount === index ? "fill-orange-400" : "fill-white"
+            }`}
+            onClick={() => setHeroCount(index)}
+          />
+        ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Hero
+export default Hero;
