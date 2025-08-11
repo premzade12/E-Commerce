@@ -52,6 +52,7 @@ function Add() {
         setBestseller(false)
         setCategory("Men")
         setSubCategory("TopWear")
+        setSizes([]);
         
       }
      } catch (error) {
@@ -91,7 +92,7 @@ function Add() {
 
               <label htmlFor="image4" className='w-[65px] h-[65px] md:h-[100px] md:w-[100px] cursor-pointer hover:border-[#46d1f7]'>
                   <img src={!image4 ? upload : URL.createObjectURL(image4)} alt="" className='w-[80%] rounded-lg shadow-2xl hover:border-[#1d1d1d] border-[2px]'/>
-                  <input type="file" id='image4' hidden onChange={(e)=>setimage4(e.target.files[0])} required/>
+                  <input type="file" id='image4' hidden onChange={(e)=>setimage4(e.target.files[0])} required />
               </label>
           </div>
         </div>
@@ -139,29 +140,29 @@ function Add() {
             <p className='text-[20px] md:text-[25px] font-semibold'>Product Size</p>
 
             <div className='flex items-start justify-start gap-[15px] flex-wrap'>
-                <div className={`px-[20px] py-[7px] rounded-lg bg-slate-600 text-[18px] hover:border-[#46d1f7] border-[2px] cursor-pointer ${sizes.includes("S") ? "bg-green-400 text-black  border-[#4d1f7]" : ""}`} onClick={()=>setSizes(prev=>prev.includes("S") ? prev.filter(item=>item!=="S") : [...prev , "S"])}>
+                <div className={`px-[20px] py-[7px] rounded-lg bg-slate-600 text-[18px] hover:border-[#46d1f7] border-[2px] cursor-pointer ${sizes.includes("S") ? "bg-green-400 text-black  border-[#46d1f7]" : ""}`} onClick={()=>setSizes(prev=>prev.includes("S") ? prev.filter(item=>item!=="S") : [...prev , "S"])}>
                   S
                 </div>
-                <div className={`px-[20px] py-[7px] rounded-lg bg-slate-600 text-[18px] hover:border-[#46d1f7] border-[2px] cursor-pointer ${sizes.includes("M") ? "bg-green-400 text-black  border-[#4d1f7]" : ""}`} onClick={()=>setSizes(prev=>prev.includes("M") ? prev.filter(item=>item!=="M") : [...prev , "M"])}>
+                <div className={`px-[20px] py-[7px] rounded-lg bg-slate-600 text-[18px] hover:border-[#46d1f7] border-[2px] cursor-pointer ${sizes.includes("M") ? "bg-green-400 text-black  border-[#46d1f7]" : ""}`} onClick={()=>setSizes(prev=>prev.includes("M") ? prev.filter(item=>item!=="M") : [...prev , "M"])}>
                   M
                 </div>
-                <div className={`px-[20px] py-[7px] rounded-lg bg-slate-600 text-[18px] hover:border-[#46d1f7] border-[2px] cursor-pointer ${sizes.includes("L") ? "bg-green-400 text-black  border-[#4d1f7]" : ""}`} onClick={()=>setSizes(prev=>prev.includes("L") ? prev.filter(item=>item!=="L") : [...prev , "L"])}>
+                <div className={`px-[20px] py-[7px] rounded-lg bg-slate-600 text-[18px] hover:border-[#46d1f7] border-[2px] cursor-pointer ${sizes.includes("L") ? "bg-green-400 text-black  border-[#46d1f7]" : ""}`} onClick={()=>setSizes(prev=>prev.includes("L") ? prev.filter(item=>item!=="L") : [...prev , "L"])}>
                   L
                 </div>
-                <div className={`px-[20px] py-[7px] rounded-lg bg-slate-600 text-[18px] hover:border-[#46d1f7] border-[2px] cursor-pointer ${sizes.includes("XL") ? "bg-green-400 text-black  border-[#4d1f7]" : ""}`} onClick={()=>setSizes(prev=>prev.includes("XL") ? prev.filter(item=>item!=="XL") : [...prev , "XL"])}>
+                <div className={`px-[20px] py-[7px] rounded-lg bg-slate-600 text-[18px] hover:border-[#46d1f7] border-[2px] cursor-pointer ${sizes.includes("XL") ? "bg-green-400 text-black  border-[#46d1f7]" : ""}`} onClick={()=>setSizes(prev=>prev.includes("XL") ? prev.filter(item=>item!=="XL") : [...prev , "XL"])}>
                   XL
                 </div>
-                <div className={`px-[20px] py-[7px] rounded-lg bg-slate-600 text-[18px] hover:border-[#46d1f7] border-[2px] cursor-pointer ${sizes.includes("XXL") ? "bg-green-400 text-black  border-[#4d1f7]" : ""}`} onClick={()=>setSizes(prev=>prev.includes("XXL") ? prev.filter(item=>item!=="XXL") : [...prev , "XXL"])}>
+                <div className={`px-[20px] py-[7px] rounded-lg bg-slate-600 text-[18px] hover:border-[#46d1f7] border-[2px] cursor-pointer ${sizes.includes("XXL") ? "bg-green-400 text-black  border-[#46d1f7]" : ""}`} onClick={()=>setSizes(prev=>prev.includes("XXL") ? prev.filter(item=>item!=="XXL") : [...prev , "XXL"])}>
                   XXL
                 </div>
             </div>
         </div>
 
         <div className='w-[80%] flex items-center justify-start gap-[10px] mt-[20px]'>
-            <input type="checkbox" id='checkbox' className='w-[22px] h-[22px] cursor-pointer' onChange={()=>setBestseller(prev=>!prev)}/>
+            <input type="checkbox" id='checkbox' checked={bestseller} className='w-[22px] h-[22px] cursor-pointer' onChange={()=>setBestseller(prev=>!prev)}/>
              <label htmlFor="checkbox" className='text-[18px] md:text-[22px] font-semibold'>Add to Bestseller</label>
         </div>
-        <button className='w-[140px] px-[20px] py-[15px] rounded-xl bg-[#65d8f7] flex items-center justify-center gap-[10px] text-black active:bg-slate-700 active:text-white active:border-[2px] border-white'>
+        <button className='w-[140px] px-[20px] py-[15px] rounded-xl bg-[#65d8f7] flex items-center justify-center cursor-pointer gap-[10px] text-black active:bg-slate-700 active:text-white active:border-[2px] border-white'>
           Add Product
         </button>
         </form>
