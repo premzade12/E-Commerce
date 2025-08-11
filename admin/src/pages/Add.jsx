@@ -92,7 +92,7 @@ function Add() {
 
               <label htmlFor="image4" className='w-[65px] h-[65px] md:h-[100px] md:w-[100px] cursor-pointer hover:border-[#46d1f7]'>
                   <img src={!image4 ? upload : URL.createObjectURL(image4)} alt="" className='w-[80%] rounded-lg shadow-2xl hover:border-[#1d1d1d] border-[2px]'/>
-                  <input type="file" id='image4' hidden onChange={(e)=>setimage4(e.target.files[0])} />
+                  <input type="file" id='image4' hidden onChange={(e)=>setimage4(e.target.files[0])} required />
               </label>
           </div>
         </div>
