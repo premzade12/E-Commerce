@@ -98,10 +98,8 @@ function ShopContext({ children }) {
     let value = {
         products, currency, delivery_fee, getProducts,
         search, setSearch, showSearch, setShowSearch,
-        cartItem, addtoCart, getCartCount, setCartItem
-        products, currency, delivery_fee, getProducts,search,setSearch,
-        showSearch,setShowSearch,cartItem,addToCart,getCartCount,setCartItem,
-        updateQuantity,getCartAmount
+        cartItem, addtoCart, getCartCount, setCartItem,getCartAmount
+        
     }
 
     return (
