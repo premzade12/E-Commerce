@@ -35,7 +35,7 @@ function ProductDetails() {
   return productData ? (
     <div>
       {/* Main product section */}
-      <div className="w-full min-h-screen bg-gradient-to-l from-[#141414] to-[#0c2025] flex flex-col lg:flex-row items-center lg:items-start justify-center gap-5 px-4 py-8">
+      <div className="w-full min-h-screen bg-gradient-to-l from-[#141414] to-[#0c2025] flex flex-col lg:flex-row items-center lg:items-start justify-center gap-5 px-4 py-32">
         
         {/* Thumbnails + Main Image */}
         <div className="flex flex-col-reverse lg:flex-row items-center gap-4 w-full lg:w-1/2">
@@ -61,7 +61,7 @@ function ProductDetails() {
             <img
               src={image}
               alt=""
-              className="w-full h-full object-cover bg-black"
+              className="w-full h-full object-fill bg-black"
             />
           </div>
         </div>
