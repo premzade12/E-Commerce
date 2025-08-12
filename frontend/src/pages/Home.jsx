@@ -3,6 +3,7 @@ import Background from '../component/Background.jsx';
 import Hero from '../component/Hero.jsx';
 import Product from './Product.jsx';
 import NewLetterBox from '../component/NewLetterBox.jsx';
+import OurPolicy from '../component/OurPolicy.jsx';
 
 const Home = () => {
   const heroData = [
