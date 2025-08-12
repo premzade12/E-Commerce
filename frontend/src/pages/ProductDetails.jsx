@@ -1,6 +1,7 @@
 import React, { useContext,useEffect,useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { shopDataContext } from '../context/ShopContext'
+import RelatedProduct from '../component/RelatedProduct'
 
 function ProductDetails() {
     let {productId} = useParams()
@@ -37,7 +38,7 @@ function ProductDetails() {
   
   return productData ? (
     <div>
-      <div className='w-screen h-[130vh] md:h-screen bg-gradient-to-l from-[#141414] to-[#0c2025] flex items-center justify-start flex-col lg:flex-row gap-[20px]'>
+      <div className='w-[99vw] h-[130vh] md:h-screen bg-gradient-to-l from-[#141414] to-[#0c2025] flex items-center justify-start flex-col lg:flex-row gap-[20px]'>
         <div className='lg:w-[50vw] md:w-[90vw] lg:h-[90vh] h-[50vh] mt-[70px] flex items-center justify-center md:gap-[10px] gap-[30px] flex-col-reverse lg:flex-row '>
             <div className='lg:w-[20%] md:w-[80%] h-[10%] lg:h-[80%] flex items-center justify-center gap-[50px] lg:gap-[20px] lg:flex-col flex-wrap'>
                 <div className='md:w-[100px] w-[50px] h-[50px] md:h-[110px] bg-slate-300 border-[1px] border-[#80808049] rounded-md'>
@@ -65,7 +66,40 @@ function ProductDetails() {
         </div>
       </div>
     </div>
-  ) : <div className='opacity-0'></div>
+  ) : <div className='opacity-0'>
+
+  <button className='text-[16px] active:bg-slate-500 cursor-pointer bg-[#495b61c9] py-[10px] px-[20px] rounded-2xl
+  mt-[10px] border-[1px] border-[#80808049] text-white shadow-md shadow-black'>
+    Add To Cart
+  </button>
+    
+    {/* one div end */}
+    <div className='w-[90%] h-[1px] bg-slate-700'></div>
+    <div className='w-[80%] text-[16px] text-white'>
+      <p>100% Original Products.</p>
+      <p>Cash on delivery is available on this product</p>
+      <p>Easy return and exchange policy within 7 days</p>
+    </div>
+    {/* two div close */}
+    <div className='w-[100%] min-h-[70vh] bg-gradient-to-l from-[#141414] to-[#0c2025] flex items-start
+    justify-start flex-col overflow-x-hidden'>
+      <div className='flex px-[20px] mt-[90px] lg:ml-[80px] ml-[0px] lg:mt-[0px]'>
+        <p className='border px-5 py-3 text-sm text-white'>Description</p>
+        <p className='border px-5 py-3 text-sm text-white'>Reviews(124)</p>
+      </div>
+      <div className='w-[80%] md:h-[150px] h-[220px] bg-[#3336397c] border text-white text-[13px] md:text-[15px]
+      lg:text-[20px] px-[10px] md:px-[30px] lg:ml-[100px] ml-[20px]'>
+        <p className='w-[95%] h-[90%] flex items-center justify-center'>
+          Upgrade your wardrobe with this stylish slim-fit cotton shirt, available now on OneCart. Crafted from breathable, high-quality fabric, it offers all-day comfort and effortless style. Easy to maintain and perfect for any setting, this shirt is a must-have essential for those who value both fashion and function.
+        </p>
+      </div>
+      <RelatedProduct category={productData.category} subCategory={productData.subCategory} currentProductId={productData._id}/>
+    </div>
+
+
+  </div>
 }
 
 export default ProductDetails
+
+
