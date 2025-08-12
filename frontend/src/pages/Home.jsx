@@ -4,6 +4,7 @@ import Hero from '../component/Hero.jsx';
 import Product from './Product.jsx';
 import NewLetterBox from '../component/NewLetterBox.jsx';
 
+
 const Home = () => {
   const heroData = [
     { text1: "30% OFF Limited Offer", text2: "Style that" },
