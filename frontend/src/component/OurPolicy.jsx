@@ -15,7 +15,7 @@ function OurPolicy() {
                 Customer-Friendly Policies - Commited to Your Satisfaction and Safety.
             </p>
         </div>
-        <div className='w-[100%] md:min-h-[50%] h[20%] flex items-center justify-center flex-wrap lg:gap-[50px] 
+        <div className='w-[100%] md:min-h-[50%] h-[20%] flex items-center justify-center flex-wrap lg:gap-[50px] 
         gap-[80px]'>
             <div className='w-[400px] max-w-[90%] h-[60%] flex items-center justify-center flex-col gap-[10px]'>
                 <RiExchangeFundsLine className='md:w-[60px] w-[30px] h-[30px] md:h-[60px] text-[#90b9ff]'/>
