@@ -3,7 +3,6 @@ import Background from '../component/Background.jsx';
 import Hero from '../component/Hero.jsx';
 import Product from './Product.jsx';
 import NewLetterBox from '../component/NewLetterBox.jsx';
-import Footer from '../component/Footer.jsx';
 
 const Home = () => {
   const heroData = [
@@ -70,6 +69,7 @@ const Home = () => {
 
       {/* Product Section */}
       <Product />
+      <OurPolicy/>
       <NewLetterBox/>
       <Footer/>
     </div>
