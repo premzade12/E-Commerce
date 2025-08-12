@@ -61,13 +61,31 @@ function ShopContext({children}) {
         return totalCount
     }
 
+    const getCartAmount = async () => {
+        let totalAmount = 0;
+        for(const items in cartItem){
+            let itemInfo = products.find((product)=>product._id ===items)
+            for(const item in cartItem[items]){
+                try {
+                    if(cartItem[items][item] > 0){
+                        totalAmount+=itemInfo.price * cartItem[items][item]
+                    }
+                } catch (error) {
+                    
+                }
+            }
+        }
+        return totalAmount;
+    }
+
     useEffect(() => {
         getProducts();
     },[])
 
     let value = {
         products, currency, delivery_fee, getProducts,search,setSearch,
-        showSearch,setShowSearch,cartItem,addToCart,getCartCount,setCartItem
+        showSearch,setShowSearch,cartItem,addToCart,getCartCount,setCartItem,
+        updateQuantity,getCartAmount
     }
   return (
     <div>
