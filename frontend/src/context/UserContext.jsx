@@ -12,7 +12,7 @@ const UserContext = ({children}) => {
             let result = await axios.get(serverUrl + "/api/user/getCurrentuser",{withCredentials:true})
 
             setuserData(result.data)
-            console.log(result.data)
+            
         } catch (error) {
             setuserData(null)
             console.log(error)
