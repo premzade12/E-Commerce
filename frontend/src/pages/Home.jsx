@@ -4,7 +4,7 @@ import Hero from '../component/Hero.jsx';
 import Product from './Product.jsx';
 import NewLetterBox from '../component/NewLetterBox.jsx';
 import OurPolicy from '../component/OurPolicy.jsx';
-
+import Footer from '../component/Footer.jsx';
 
 const Home = () => {
   const heroData = [
