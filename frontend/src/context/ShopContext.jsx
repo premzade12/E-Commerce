@@ -98,6 +98,23 @@ function ShopContext({ children }) {
         return totalCount;
     }
 
+    const getCartAmount = async () => {
+        let totalAmount = 0;
+        for(const items in cartItem){
+            let itemInfo = products.find((product)=>product._id ===items)
+            for(const item in cartItem[items]){
+                try {
+                    if(cartItem[items][item] > 0){
+                        totalAmount+=itemInfo.price * cartItem[items][item]
+                    }
+                } catch (error) {
+                    
+                }
+            }
+        }
+        return totalAmount;
+    }
+
     useEffect(() => {
         getProducts();
     }, [])
@@ -109,7 +126,7 @@ function ShopContext({ children }) {
     let value = {
         products, currency, delivery_fee, getProducts,
         search, setSearch, showSearch, setShowSearch,
-        cartItem, addtoCart, getCartCount, setCartItem, updateQuantity
+        cartItem, addtoCart, getCartCount, setCartItem
     }
 
     return (

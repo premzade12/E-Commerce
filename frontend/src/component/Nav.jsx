@@ -69,7 +69,7 @@ function Nav() {
                 )}
             {userData && <div className='w-[30px] h-[30px] bg-[#080808] text-[white] rounded-full flex items-center justify-center cursor-pointer' onClick={()=>setShowProfile(prev=>!prev)}>
                 {userData?.name.slice(0,1)}</div>}
-            <MdOutlineShoppingCart className='w-[30px] h-[30px] text-[#000000] cursor-pointer hidden md:block'/>
+            <MdOutlineShoppingCart className='w-[30px] h-[30px] text-[#000000] cursor-pointer hidden md:block' onClick={()=>navigate("/cart")}/>
             <p className='absolute w-[18px] h-[18px] items-center md:flex justify-center bg-black 
             px-[5px] py-[2px] text-white rounded-full text-[9px] top-[10px] right-[23px] hidden'>{getCartCount()}</p>
         </div>
@@ -106,7 +106,7 @@ function Nav() {
                 <MdContacts className='w-[30px] h-[30px] text-white md:hidden' onClick={()=>navigate("/contact")}/>Contact</button>
             
             <button className='text-[white] flex items-center justify-center flex-col gap-[2px]'>
-                <MdOutlineShoppingCart className='w-[30px] h-[30px] text-white md:hidden onClick={()=>navigate("/cart")}'/>Cart</button>
+                <MdOutlineShoppingCart className='w-[30px] h-[30px] text-white md:hidden' onClick={()=>navigate("/cart")}/>Cart</button>
             
             <p className='absolute w-[18px] h-[18px] flex items-center justify-center bg-white px-[5px] py-[2px] text-black font-semibold 
             rounded-full text-[9px] top-[8px] right-[18px]'>{getCartCount()}</p>
