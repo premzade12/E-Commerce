@@ -11,13 +11,14 @@ import axios from 'axios';
 import { IoMdHome } from "react-icons/io";
 import { HiOutlineCollection } from "react-icons/hi";
 import { MdContacts } from "react-icons/md";
+import { shopDataContext } from '../context/ShopContext';
 
 
 
 function Nav() {
     let {getCurrentUser, userData} = useContext(userDataContext);
     let {serverUrl} = useContext(authDataContext);
-    let [showSearch, setShowSearch] = useState(false);
+    let {showSearch, setShowSearch,search ,setSearch } = useContext(shopDataContext);
     let [showProfile, setShowProfile] = useState(false);
     const navigate = useNavigate();
 
@@ -60,7 +61,7 @@ function Nav() {
             {!showSearch && (
             <IoSearchCircleOutline
                 className='w-[30px] h-[30px] text-[#000000] cursor-pointer'
-                onClick={() => setShowSearch(prev => !prev)}
+                onClick={() =>{ setShowSearch(prev => !prev);navigate("/collections")}}
             />
             )}
             {!userData && (

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Background from '../component/Background.jsx';
 import Hero from '../component/Hero.jsx';
 import Product from './Product.jsx';
+import NewLetterBox from '../component/NewLetterBox.jsx';
 
 const Home = () => {
   const heroData = [
@@ -68,6 +69,7 @@ const Home = () => {
 
       {/* Product Section */}
       <Product />
+      <NewLetterBox/>
     </div>
   );
 };
