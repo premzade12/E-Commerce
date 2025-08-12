@@ -50,13 +50,37 @@ function ShopContext({ children }) {
 
         if (userData) {
             try {
-                await axios.post(serverUrl + '/api/cart/add', { itemId, size }, { withCredentials: true });
+                let result = await axios.post(serverUrl + '/api/cart/add', { itemId, size }, { withCredentials: true });
             } catch (error) {
                 console.log(error);
             }
         }
         else {
             console.log("Add error");
+        }
+    }
+
+
+    const getUserCart = async () => {
+        try {
+            const result = await axios.post(serverUrl + '/api/cart/get',{},{withCredentials: true});
+            setCartItem(result.data);
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+
+    const updateQuantity = async(itemId, size, quantity) => {
+        let cartData = structuredClone(cartItem);
+        cartData[itemId][size] = quantity;
+        setCartItem(cartData);
+        if(userData){
+         try {
+            await axios.post (serverUrl + "/api/cart/update", {itemId, size, quantity}, {withCredentials:true})
+         } catch (error) {
+            console.log(error);
+         }   
         }
     }
 
@@ -78,10 +102,14 @@ function ShopContext({ children }) {
         getProducts();
     }, [])
 
+    useEffect(() => {
+        getUserCart()
+    },[])
+
     let value = {
         products, currency, delivery_fee, getProducts,
         search, setSearch, showSearch, setShowSearch,
-        cartItem, addtoCart, getCartCount, setCartItem
+        cartItem, addtoCart, getCartCount, setCartItem, updateQuantity
     }
 
     return (
