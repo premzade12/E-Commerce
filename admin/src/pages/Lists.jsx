@@ -70,6 +70,7 @@ const removeList = async (id) => {
                               <lord-icon 
                             src="https://cdn.lordicon.com/skkahier.json"
                             trigger="hover"
+                            colors="primary:#00ffff,secondary:#00ffff"
                             style={{ width: "25px", height: "25px",}}
                           ></lord-icon>
                             </span>
