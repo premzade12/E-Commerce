@@ -39,7 +39,7 @@ function Footer() {
                     </p>
                 </div>
                  <ul>
-                    <li className='text-[15px] text-[#1e2223] hidden md:block cursor-pointer '>+91-7741963790</li>
+                    <li className='text-[15px] text-[#1e2223] hidden md:block cursor-pointer '>+91-9876543210</li>
                     <li className='text-[15px] text-[#1e2223]  cursor-pointer '>contact@onnecart.com</li>
                     <li className='text-[15px] text-[#1e2223] hidden md:block cursor-pointer '>+1-001-222-1221</li>
                     <li className='text-[15px] text-[#1e2223]  cursor-pointer '>admin@onecart.com</li>
