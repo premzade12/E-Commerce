@@ -9,8 +9,12 @@ function Footer() {
             <div className='flex items-start justify-start gap-[5px] mt-[10px] md:mt-[40px] '>
                 <img src={Logo} className='md:w-[40px] md:h-[40px] w-[30px] h-[30px]' />
                 <p className='text-[19px] md:text-[20px] text-black'>OneCart</p>
-                <p className='text-[15px]'></p>
-                <p></p>
+                <p className='text-[15px] text-[#1e2223] hidden md:block'>
+                    OneCart is your all-in-one online shopping destination, offering top-quality products, unbeatable deals, and fast delivery-all backed by trusted service designed to make your life easier every day.
+                </p>
+                <p className='text-[15px] text-[#1e2223] flex md:hidden'>
+                    Fast. Easy. Reliable. OneCart Shopping
+                </p>
             </div>
         </div>
       </div>
