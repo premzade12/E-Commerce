@@ -10,6 +10,7 @@ import About from './pages/About'
 import Contact from './pages/Contact'
 import Product from './pages/Product'
 import Collections from './pages/Collections'
+import ProductDetails from './pages/ProductDetails'
 
 function App() {
   let {userData} = useContext(userDataContext)
@@ -34,7 +35,8 @@ function App() {
         <Route path='/product' element={userData ? <Product/> : <Navigate to={"/login"} state={{from:location.pathname}}/>}/>
 
         <Route path='/collections' element={userData ? <Collections/> : <Navigate to={"/login"} state={{from:location.pathname}}/>}/>
-
+        
+        <Route path='/productdetail/:productId' element={userData ? <ProductDetails/> : <Navigate to={"/login"} state={{from:location.pathname}}/>}/>
       </Routes>
     </>
   )
