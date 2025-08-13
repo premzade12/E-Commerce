@@ -1,19 +1,34 @@
 import React, { useContext, useState } from "react";
 import Title from "./Title";
 import CartTotal from "../component/CartTotal.jsx";
-import stripe from "../assets/stripe.png";
+import stripe1 from "../assets/stripe.png";
 import { shopDataContext } from "../context/ShopContext.jsx";
 import { authDataContext } from "../context/authContext.jsx";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast, Bounce } from "react-toastify";
+import { loadStripe } from "@stripe/stripe-js";
+
+import {
+  Elements,
+  CardElement,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
+
+const stripePromise = loadStripe(
+  "pk_test_51RvXaHFufNua0lBNgvpJJqI1gbwKTFcQoW5sFXoNSxB0aWoxeJqNXhIhHvKMJThpdbGIQBlKWGhjb2T0wr00YTuD00jycTRjc4"
+);
 
 function PlaceOrder() {
   let [method, setMethod] = useState("cod");
   const { cartItem, setCartItem, getCartAmount, delivery_fee, products } =
     useContext(shopDataContext);
   let { serverUrl } = useContext(authDataContext);
+  const [loading, setLoading] = useState(false);
   let navigate = useNavigate();
+  const stripe = useStripe();
+  const elements = useElements();
 
   let [formData, setFormData] = useState({
     firstName: "",
@@ -55,6 +70,7 @@ function PlaceOrder() {
         items: orderItems,
         amount: getCartAmount() + delivery_fee,
       };
+
       switch (method) {
         case "cod":
           const result = await axios.post(
@@ -72,35 +88,64 @@ function PlaceOrder() {
           break;
 
         case "stripe":
+          if (!stripe || !elements) {
+            toast.error("Stripe is still loading...");
+            return;
+          }
           const token = localStorage.getItem("token");
 
-          const responseStripe = await axios.post(
-           serverUrl + "/api/order/stripe",
-            orderData,
+          const createIntent = await axios.post(
+            serverUrl + "/api/order/create-stripe-payment",
+            { amount: getCartAmount() + delivery_fee },
             {
               headers: { Authorization: `Bearer ${token}` },
               withCredentials: true,
             }
-           
-            
           );
-           console.log(responseStripe.data);
+          const cardElement = elements.getElement(CardElement);
+          if (!cardElement) {
+            toast.error("Card details not entered!");
+            setLoading(false);
+            return;
+          }
 
-          if (responseStripe.data.success) {
-            const { session_url } = responseStripe.data;
-            window.location.replace(session_url);
-          } else {
-            toast.error(responseStripe.data.message, {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: false,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-              transition: Bounce,
-            });
+          const { clientSecret, paymentIntentId } = createIntent.data;
+
+          const { error, paymentIntent } = await stripe.confirmCardPayment(
+            clientSecret,
+            {
+              payment_method: {
+                card: elements.getElement(CardElement),
+                billing_details: {
+                  name: `${formData.firstName} ${formData.lastName}`,
+                  email: formData.email,
+                },
+              },
+            }
+          );
+
+          if (error) {
+            toast.error(error.message);
+            return;
+          }
+          if (paymentIntent.status === "succeeded") {
+            // 3. Call backend to place the order
+            await axios.post(
+              serverUrl + "/api/order/stripe",
+              {
+                items: orderItems,
+                amount: getCartAmount() + delivery_fee,
+                address: formData,
+                paymentIntentId, // send ID for backend verification
+              },
+              {
+                headers: { Authorization: `Bearer ${token}` },
+                withCredentials: true,
+              }
+            );
+
+            setCartItem({});
+            navigate("/order");
           }
           break;
 
@@ -118,7 +163,6 @@ function PlaceOrder() {
     flex-col md:flex-row gap:[50px] relative"
     >
       <div className="lg:w-[50%] w-[100%] h-[100%] flex items-center justify-center lg:mt-[0px] mt-[90px]">
-        {/* ✅ FIX: Add onSubmit to form */}
         <form
           onSubmit={onSubmitHandler}
           className="lg:w-[70%] w-[95%] lg:h-[70%] h-[100%]"
@@ -236,7 +280,23 @@ function PlaceOrder() {
               value={formData.phone}
             />
           </div>
-
+          {method === "stripe" && (
+            <div className="w-full px-[10px] mb-[20px]">
+              <CardElement
+                options={{
+                  style: {
+                    base: {
+                      color: "#fff", // white text
+                      fontSize: "16px",
+                      "::placeholder": { color: "#ccc" },
+                    },
+                    invalid: { color: "#ff6b6b" },
+                  },
+                }}
+                className="bg-slate-700 p-[10px] rounded-md shadow-sm shadow-[#343434]"
+              />
+            </div>
+          )}
           <div>
             <button
               type="submit"
@@ -266,7 +326,7 @@ function PlaceOrder() {
                   }`}
             >
               <img
-                src={stripe}
+                src={stripe1}
                 alt="Stripe"
                 className="w-full h-full object-contain rounded-sm"
               />

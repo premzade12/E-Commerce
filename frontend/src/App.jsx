@@ -14,11 +14,20 @@ import ProductDetails from './pages/ProductDetails'
 import Cart from './pages/Cart'
 import PlaceOrder from './pages/PlaceOrder'
 import Order from './pages/Order'
- import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+
+
+const stripePromise = loadStripe(
+  "pk_test_51RvXaHFufNua0lBNgvpJJqI1gbwKTFcQoW5sFXoNSxB0aWoxeJqNXhIhHvKMJThpdbGIQBlKWGhjb2T0wr00YTuD00jycTRjc4"
+);
 
 function App() {
   let {userData} = useContext(userDataContext)
   let location = useLocation()
+  
+
 
   return (
     <>
@@ -45,7 +54,7 @@ function App() {
 
         <Route path='/cart' element={userData ? <Cart/> : <Navigate to={"/login"} state={{from:location.pathname}}/>}/>
 
-        <Route path='/placeorder' element={userData ? <PlaceOrder/> : <Navigate to={"/login"} state={{from:location.pathname}}/>}/>
+        <Route path='/placeorder' element={userData ? (  <Elements stripe={stripePromise}>   <PlaceOrder /> </Elements> ) : <Navigate to={"/login"} state={{from:location.pathname}}/>}/>
 
         <Route path='/order' element={userData ? <Order/> : <Navigate to={"/login"} state={{from:location.pathname}}/>}/>
       </Routes>

@@ -36,23 +36,27 @@ export const placeOrder = async (req, res) => {
     }
 };
 
-// Stripe Step 1: Create Payment Intent
+
 export const createStripePayment = async (req, res) => {
     try {
         const { amount } = req.body;
 
         const paymentIntent = await stripeInstance.paymentIntents.create({
-            amount: amount * 100, // amount in paise
+            amount: amount * 100, 
             currency,
             payment_method_types: ["card"],
         });
 
-        res.status(200).json({ clientSecret: paymentIntent.client_secret });
+        res.status(200).json({
+            clientSecret: paymentIntent.client_secret,
+            paymentIntentId: paymentIntent.id
+        });
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: error.message });
     }
 };
+
 
 // Stripe Step 2: Place order after payment success
 export const placeOrderStripe = async (req, res) => {

@@ -9,6 +9,6 @@ const orderRoutes = express.Router()
 //for user
 orderRoutes.post("/placeorder",isAuth,placeOrder)
 orderRoutes.post("/create-stripe-payment", isAuth, createStripePayment);
-orderRoutes.post("/Stripe",isAuth,placeOrderStripe)
+orderRoutes.post("/stripe",isAuth,placeOrderStripe)
 
 export default orderRoutes
