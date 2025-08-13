@@ -27,3 +27,37 @@ export const placeOrder = async(req,res) => {
         res.status(500).json({message: 'Order Place error'});
     }
 } 
+
+
+export const userOrders = async (req,res)=>{
+    try {
+        const userId = req.userId;
+        const orders = await Order.find({userId})
+        return res.status(200).json(orders);
+    } catch (error) {
+        return res.status(500).json({message:"userOrders error"})
+    }
+}
+
+
+
+//for admin
+export const allOrders = async(req,res)=>{
+    try {
+        const orders = await Order.find({})
+        res.status(200).json(orders)
+    } catch (error) {
+        return res.status(500).json({message:"adminAllOrders error"})
+    }
+}
+
+export const updateStatus = async(req,res)=>{
+    try {
+        const {orderId, status} = req.body;
+
+        await Order.findByIdAndUpdate(orderId, {status});
+        return res.status(201).json({message:'Status Updated'})
+    } catch (error) {
+        return res.status(500).json({message:error.message})
+    }
+}
