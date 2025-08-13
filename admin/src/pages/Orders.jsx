@@ -18,12 +18,10 @@ function Orders() {
       console.log(error)
     }
   }
-
   const statusHandler = async (e, orderId) => {
     try {
-      // ⬇ Ensure this matches your backend route
-      const result = await axios.post(serverUrl + '/api/order/status', { orderId, status: e.target.value }, { withCredentials: true })
-      if (result.data) {
+      const result = await axios.post(serverUrl + '/api/order/status', {orderId,status:e.target.value}, {withCredentials:true})
+      if(result.data){
         await fetchAllOrders()
       }
     } catch (error) {
@@ -53,42 +51,36 @@ function Orders() {
                 <div>
                   <div className='flex items-start justify-center flex-col gap-[5px] text-[16px] text-[#56dbfc]'>
                     {
-                      order.items?.map((item, idx) => {
-                        if (idx === order.items.length - 1) {
-                          return <p key={idx}>{item.name?.toUpperCase()} * {item.quantity} <span>{item.size}</span></p>
+                      order.items.map((item, index) => {
+                        if (index === order.items.length - 1) {
+                          return <p key={index}>{item.name.toUpperCase()}  *  {item.quantity} <span> {item.size}</span></p>
                         }
                         else {
-                          return <p key={idx}>{item.name?.toUpperCase()} * {item.quantity} <span>{item.size}</span>,</p>
+                          return <p key={index}>{item.name.toUpperCase()}  *  {item.quantity} <span> {item.size}</span>,</p>
                         }
                       })
                     }
                   </div>
                   <div className='texr-[15px] text-green-100'>
-                    <p>{order.address ? `${order.address.firstName} ${order.address.lastName}` : "Name not available"}</p>
-                    <p>{order.address?.street ? `${order.address.street},` : ""}</p>
-                    <p>{order.address ? `${order.address.city}, ${order.address.state}, ${order.address.country}, ${order.address.pinCode}` : "Address not available"}</p>
-                    <p>{order.address?.phone || "Phone not available"}</p>
+                    <p>{order.address.firstName + " " + order.address.lastName}</p>
+                    <p>{order.address.street + ", "}</p>
+                    <p>{order.address.city + ", " + order.address.state + ", " + order.address.country + ", " + order.address.pinCode}</p>
+                    <p>{order.address.phone}</p>
                   </div>
                 </div>
-
                 <div className='text-[15px] text-green-100'>
-                  <p>Items : {order.items?.length || 0} </p>
-                  <p>Method : {order.paymentMethod || "N/A"} </p>
+                  <p>Items : {order.items.length} </p>
+                  <p>Method : {order.paymentMethod} </p>
                   <p>Payment : {order.payment ? 'Done' : 'Pending'} </p>
-                  <p>Date : {order.date ? new Date(order.date).toLocaleDateString() : "N/A"}</p>
-                  <p className='text-[20px] text-white'>₹ {order.amount || 0}</p>
+                  <p>Date : {new Date(order.date).toLocaleDateString()}</p>
+                  <p className='text-[20px] text-white'> ₹ {order.amount}</p>
                 </div>
-
-                <select
-                  value={order.status || "Order Placed"}
-                  className='px-[5px] py-[10px] bg-slate-500 rounded-lg border-[1px] border-[#96eef3]'
-                  onChange={(e) => statusHandler(e, order._id)}
-                >
-                  <option value="Order Placed">Order Placed</option>
-                  <option value="Packing">Packing</option>
-                  <option value="Shipped">Shipped</option>
-                  <option value="Out for delivery">Out for delivery</option>
-                  <option value="Delivered">Delivered</option>
+                <select value={order.status} className='px-[5px] py-[10px] bg-slate-500 rounded-lg border-[1px] border-[#96eef3]' onChange={(e)=>statusHandler(e,order._id)}>
+                  <option value="Order Placed"> Order Placed</option>
+                  <option value="Packing"> Packing</option>
+                  <option value="Shipped"> Shipped</option>
+                  <option value="Out for delivery"> Out for delivery</option>
+                  <option value="Delivered"> Delivered</option>
                 </select>
               </div>
             ))

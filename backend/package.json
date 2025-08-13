@@ -20,6 +20,11 @@
     "multer": "^2.0.2",
     "nodemon": "^3.1.10",
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    "react-toastify": "^11.0.5",
+    "stripe": "^18.4.0",
+>>>>>>> 9a328788552d80f7625eb3e6f93c21c195cc86a1
 =======
     "react-toastify": "^11.0.5",
     "stripe": "^18.4.0",
