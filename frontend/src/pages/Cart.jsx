@@ -2,6 +2,7 @@ import React, { useContext, useEffect,useState } from 'react'
 import Title from './Title'
 import { shopDataContext } from '../context/ShopContext'
 import { useNavigate } from 'react-router-dom'
+import CartTotal from '../component/CartTotal'
 
 function Cart() {
    const {products, currency, cartItem, updateQuantity} = useContext(shopDataContext)    
@@ -58,6 +59,7 @@ function Cart() {
                             <lord-icon 
                             src="https://cdn.lordicon.com/skkahier.json"
                             trigger="hover"
+                            colors="primary:#00ffff,secondary:#00ffff"
                             style={{ width: "25px", height: "25px",}}
                           ></lord-icon>
                         </span>
@@ -68,6 +70,18 @@ function Cart() {
             })
         }
       </div>
+       <div className='flex justify-end items-end my-20 px-16'>
+            <div className='w-full sm:w-[450px]'>
+                <CartTotal/>
+                <button className='text-[18px] hover:bg-slate-500 cursor-pointer bg-[#51808048] py-[10px] px-[50px] rounded-2xl text-white flex items-center justify-center gap-[20px] border-[1px] border-[#80808049] ml-[30px] mt-[20px] ' onClick={()=>{if(cartData.length > 0 )navigate("/placeorder");
+                    else{
+                        console.log("Your cart is empty!")
+                    }
+                }}>
+                    PROCEED TO CHECKOUT
+                </button>
+            </div>
+       </div>
     </div>
   )
 }
