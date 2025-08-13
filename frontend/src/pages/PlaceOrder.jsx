@@ -6,10 +6,12 @@ import { shopDataContext } from "../context/ShopContext.jsx";
 import { authDataContext } from "../context/authContext.jsx";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast, Bounce } from "react-toastify";
 
 function PlaceOrder() {
   let [method, setMethod] = useState("cod");
-  const { cartItem, setCartItem, getCartAmount, delivery_fee, products } = useContext(shopDataContext);
+  const { cartItem, setCartItem, getCartAmount, delivery_fee, products } =
+    useContext(shopDataContext);
   let { serverUrl } = useContext(authDataContext);
   let navigate = useNavigate();
 
@@ -22,10 +24,9 @@ function PlaceOrder() {
     state: "",
     pinCode: "",
     country: "",
-    phone: ""
+    phone: "",
   });
 
-  // ✅ FIX: Correctly extract name and value from target
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
     setFormData((data) => ({ ...data, [name]: value }));
@@ -38,7 +39,9 @@ function PlaceOrder() {
       for (const items in cartItem) {
         for (const item in cartItem[items]) {
           if (cartItem[items][item] > 0) {
-            const itemInfo = structuredClone(products.find((product) => product._id === items));
+            const itemInfo = structuredClone(
+              products.find((product) => product._id === items)
+            );
             if (itemInfo) {
               itemInfo.size = item;
               itemInfo.quantity = cartItem[items][item];
@@ -50,19 +53,57 @@ function PlaceOrder() {
       let orderData = {
         address: formData,
         items: orderItems,
-        amount: getCartAmount() + delivery_fee
+        amount: getCartAmount() + delivery_fee,
       };
       switch (method) {
         case "cod":
-          const result = await axios.post(serverUrl + "/api/order/placeorder", orderData, { withCredentials: true });
+          const result = await axios.post(
+            serverUrl + "/api/order/placeorder",
+            orderData,
+            { withCredentials: true }
+          );
           console.log(result.data);
-          if(result.data){
+          if (result.data) {
             setCartItem({});
             navigate("/order");
-          }else{
+          } else {
             console.log(result.data.message);
           }
           break;
+
+        case "stripe":
+          const token = localStorage.getItem("token");
+
+          const responseStripe = await axios.post(
+           serverUrl + "/api/order/stripe",
+            orderData,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+              withCredentials: true,
+            }
+           
+            
+          );
+           console.log(responseStripe.data);
+
+          if (responseStripe.data.success) {
+            const { session_url } = responseStripe.data;
+            window.location.replace(session_url);
+          } else {
+            toast.error(responseStripe.data.message, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              transition: Bounce,
+            });
+          }
+          break;
+
         default:
           break;
       }
@@ -78,7 +119,10 @@ function PlaceOrder() {
     >
       <div className="lg:w-[50%] w-[100%] h-[100%] flex items-center justify-center lg:mt-[0px] mt-[90px]">
         {/* ✅ FIX: Add onSubmit to form */}
-        <form onSubmit={onSubmitHandler} className="lg:w-[70%] w-[95%] lg:h-[70%] h-[100%]">
+        <form
+          onSubmit={onSubmitHandler}
+          className="lg:w-[70%] w-[95%] lg:h-[70%] h-[100%]"
+        >
           <div className="py-[10px]">
             <Title text1={"DELIVERY"} text2={"INFORMATION"} />
           </div>
@@ -183,7 +227,9 @@ function PlaceOrder() {
               maxLength={10}
               pattern="[0-9]{10}"
               inputMode="numeric"
-              onInput={(e) => (e.target.value = e.target.value.replace(/\D/g, ""))}
+              onInput={(e) =>
+                (e.target.value = e.target.value.replace(/\D/g, ""))
+              }
               required
               onChange={onChangeHandler}
               name="phone"
@@ -219,13 +265,19 @@ function PlaceOrder() {
                       : "border-[3px] border-blue-900 hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/30"
                   }`}
             >
-              <img src={stripe} alt="Stripe" className="w-full h-full object-contain rounded-sm" />
+              <img
+                src={stripe}
+                alt="Stripe"
+                className="w-full h-full object-contain rounded-sm"
+              />
             </button>
             <button
               onClick={() => setMethod("cod")}
               className={`w-[200px] h-[50px] bg-gradient-to-t from-[#95b3f8] to-[white] 
               text-[14px] px-[20px] rounded-sm text-[#332f6f] font-bold ${
-                method === "cod" ? "border-[5px] border-blue-900 rounded-sm" : ""
+                method === "cod"
+                  ? "border-[5px] border-blue-900 rounded-sm"
+                  : ""
               }`}
             >
               CASH ON DELIVERY

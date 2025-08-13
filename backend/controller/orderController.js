@@ -1,6 +1,9 @@
 import Order from "../model/orderModel.js";
 import User from "../model/userModel.js";
 import Stripe from "stripe";
+import dotenv from "dotenv";
+dotenv.config();
+
 
 const stripeInstance = new Stripe(process.env.STRIPE_SECRET_KEY);
 const currency = "inr";
