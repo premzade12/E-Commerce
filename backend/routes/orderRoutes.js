@@ -13,6 +13,6 @@ orderRoutes.post("/userorder",isAuth,userOrders)
 
 //for admin
 orderRoutes.post("/list",adminAuth,allOrders)
-orderRoutes.post("/userorder",adminAuth,updateStatus)
+orderRoutes.post("/status",adminAuth,updateStatus)
 
 export default orderRoutes
