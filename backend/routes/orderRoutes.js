@@ -1,28 +1,27 @@
-import express from 'express'
-import isAuth from '../middleware/isAuth.js'
-<<<<<<< HEAD
-import { allOrders, placeOrder, updateStatus, userOrders } from '../controller/orderController.js'
-import adminAuth from '../middleware/adminAuth.js'
+import express from 'express';
+import isAuth from '../middleware/isAuth.js';
+import adminAuth from '../middleware/adminAuth.js';
+import {
+    allOrders,
+    placeOrder,
+    updateStatus,
+    userOrders,
+    placeOrderStripe,
+    createStripePayment
+} from '../controller/orderController.js';
 
-=======
-import { placeOrder, placeOrderStripe } from '../controller/orderController.js'
-import { createStripePayment } from '../controller/orderController.js'
->>>>>>> 9a328788552d80f7625eb3e6f93c21c195cc86a1
+const orderRoutes = express.Router();
 
+// For user - COD
+orderRoutes.post("/placeorder", isAuth, placeOrder);
+orderRoutes.post("/userorder", isAuth, userOrders);
 
-const orderRoutes = express.Router()
-
-//for user
-orderRoutes.post("/placeorder",isAuth,placeOrder)
-<<<<<<< HEAD
-orderRoutes.post("/userorder",isAuth,userOrders)
-
-//for admin
-orderRoutes.post("/list",adminAuth,allOrders)
-orderRoutes.post("/status",adminAuth,updateStatus)
-=======
+// For user - Stripe
 orderRoutes.post("/create-stripe-payment", isAuth, createStripePayment);
-orderRoutes.post("/Stripe",isAuth,placeOrderStripe)
->>>>>>> 9a328788552d80f7625eb3e6f93c21c195cc86a1
+orderRoutes.post("/Stripe", isAuth, placeOrderStripe);
 
-export default orderRoutes
+// For admin
+orderRoutes.post("/list", adminAuth, allOrders);
+orderRoutes.post("/status", adminAuth, updateStatus);
+
+export default orderRoutes;
