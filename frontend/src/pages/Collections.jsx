@@ -3,6 +3,7 @@ import { FaChevronRight, FaChevronDown } from "react-icons/fa";
 import Title from './Title';
 import { shopDataContext } from '../context/ShopContext';
 import Card from './Card';
+import Ai from '../component/Ai';
 
 function Collections() {
 
@@ -122,6 +123,7 @@ function Collections() {
             </p>
           </div>
         </div>
+        <Ai/>
       </div>
 
       {/* Main content wrapper: add padding left on lg to avoid overlap with fixed sidebar */}
