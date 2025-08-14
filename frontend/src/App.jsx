@@ -18,6 +18,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import Verify from './pages/Verify'
+import Ai from './component/Ai'
 
 
 const stripePromise = loadStripe(
@@ -61,6 +62,7 @@ function App() {
 
         <Route path='/verify' element={userData ? <Verify/> : <Navigate to={"/login"} state={{from:location.pathname}}/>}/>
       </Routes>
+      <Ai/>
     </>
   )
 }
