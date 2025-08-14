@@ -17,6 +17,7 @@ import Order from './pages/Order'
 import { ToastContainer, toast } from 'react-toastify';
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import Verify from './pages/Verify'
 
 
 const stripePromise = loadStripe(
@@ -57,6 +58,8 @@ function App() {
         <Route path='/placeorder' element={userData ? (  <Elements stripe={stripePromise}>   <PlaceOrder /> </Elements> ) : <Navigate to={"/login"} state={{from:location.pathname}}/>}/>
 
         <Route path='/order' element={userData ? <Order/> : <Navigate to={"/login"} state={{from:location.pathname}}/>}/>
+
+        <Route path='/verify' element={userData ? <Verify/> : <Navigate to={"/login"} state={{from:location.pathname}}/>}/>
       </Routes>
     </>
   )

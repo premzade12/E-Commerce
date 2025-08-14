@@ -120,6 +120,7 @@ function ShopContext({ children }) {
     }, [])
 
     useEffect(() => {
+        if (Object.keys(cartItem).length === 0) return;
         getUserCart()
     },[])
 

@@ -6,15 +6,10 @@ import { shopDataContext } from "../context/ShopContext.jsx";
 import { authDataContext } from "../context/authContext.jsx";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { toast, Bounce } from "react-toastify";
+import { toast } from "react-toastify";
 import { loadStripe } from "@stripe/stripe-js";
 
-import {
-  Elements,
-  CardElement,
-  useStripe,
-  useElements,
-} from "@stripe/react-stripe-js";
+import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
 const stripePromise = loadStripe(
   "pk_test_51RvXaHFufNua0lBNgvpJJqI1gbwKTFcQoW5sFXoNSxB0aWoxeJqNXhIhHvKMJThpdbGIQBlKWGhjb2T0wr00YTuD00jycTRjc4"
@@ -65,6 +60,7 @@ function PlaceOrder() {
           }
         }
       }
+
       let orderData = {
         address: formData,
         items: orderItems,
@@ -78,12 +74,11 @@ function PlaceOrder() {
             orderData,
             { withCredentials: true }
           );
-          console.log(result.data);
           if (result.data) {
             setCartItem({});
             navigate("/order");
           } else {
-            console.log(result.data.message);
+            toast.error(result.data.message);
           }
           break;
 
@@ -94,59 +89,24 @@ function PlaceOrder() {
           }
           const token = localStorage.getItem("token");
 
+          // ✅ Send items + address instead of just amount
           const createIntent = await axios.post(
             serverUrl + "/api/order/create-stripe-payment",
-            { amount: getCartAmount() + delivery_fee },
+            { items: orderItems, address: formData },
             {
               headers: { Authorization: `Bearer ${token}` },
               withCredentials: true,
             }
           );
-          const cardElement = elements.getElement(CardElement);
-          if (!cardElement) {
-            toast.error("Card details not entered!");
-            setLoading(false);
+
+          if (!createIntent.data.url) {
+            toast.error("Failed to create Stripe session");
             return;
           }
 
-          const { clientSecret, paymentIntentId } = createIntent.data;
-
-          const { error, paymentIntent } = await stripe.confirmCardPayment(
-            clientSecret,
-            {
-              payment_method: {
-                card: elements.getElement(CardElement),
-                billing_details: {
-                  name: `${formData.firstName} ${formData.lastName}`,
-                  email: formData.email,
-                },
-              },
-            }
-          );
-
-          if (error) {
-            toast.error(error.message);
-            return;
-          }
-          if (paymentIntent.status === "succeeded") {
-            // 3. Call backend to place the order
-            await axios.post(
-              serverUrl + "/api/order/stripe",
-              {
-                items: orderItems,
-                amount: getCartAmount() + delivery_fee,
-                address: formData,
-                paymentIntentId, // send ID for backend verification
-              },
-              {
-                headers: { Authorization: `Bearer ${token}` },
-                withCredentials: true,
-              }
-            );
-
-            setCartItem({});
-            navigate("/order");
-          }
+          // ✅ Redirect to Stripe Checkout
+          window.location.href = createIntent.data.url;
+          setCartItem({});
           break;
 
         default:
@@ -154,6 +114,7 @@ function PlaceOrder() {
       }
     } catch (error) {
       console.log(error);
+      toast.error("Order submission failed");
     }
   };
 
@@ -170,6 +131,8 @@ function PlaceOrder() {
           <div className="py-[10px]">
             <Title text1={"DELIVERY"} text2={"INFORMATION"} />
           </div>
+
+          {/* Form Inputs */}
           <div className="w-[100%] h-[70px] flex items-center justify-between px-[10px]">
             <input
               type="text"
@@ -181,7 +144,6 @@ function PlaceOrder() {
               name="firstName"
               value={formData.firstName}
             />
-
             <input
               type="text"
               placeholder="Last name"
@@ -193,6 +155,7 @@ function PlaceOrder() {
               value={formData.lastName}
             />
           </div>
+
           <div className="w-[100%] h-[70px] flex items-center justify-between px-[10px]">
             <input
               type="email"
@@ -205,6 +168,7 @@ function PlaceOrder() {
               value={formData.email}
             />
           </div>
+
           <div className="w-[100%] h-[70px] flex items-center justify-between px-[10px]">
             <input
               type="text"
@@ -217,6 +181,7 @@ function PlaceOrder() {
               value={formData.street}
             />
           </div>
+
           <div className="w-[100%] h-[70px] flex items-center justify-between px-[10px]">
             <input
               type="text"
@@ -228,7 +193,6 @@ function PlaceOrder() {
               name="city"
               value={formData.city}
             />
-
             <input
               type="text"
               placeholder="State"
@@ -240,6 +204,7 @@ function PlaceOrder() {
               value={formData.state}
             />
           </div>
+
           <div className="w-[100%] h-[70px] flex items-center justify-between px-[10px]">
             <input
               type="text"
@@ -251,7 +216,6 @@ function PlaceOrder() {
               name="pinCode"
               value={formData.pinCode}
             />
-
             <input
               type="text"
               placeholder="Country"
@@ -263,6 +227,7 @@ function PlaceOrder() {
               value={formData.country}
             />
           </div>
+
           <div className="w-[100%] h-[70px] flex items-center justify-between px-[10px]">
             <input
               type="text"
@@ -271,32 +236,15 @@ function PlaceOrder() {
               maxLength={10}
               pattern="[0-9]{10}"
               inputMode="numeric"
-              onInput={(e) =>
-                (e.target.value = e.target.value.replace(/\D/g, ""))
-              }
+              onInput={(e) => (e.target.value = e.target.value.replace(/\D/g, ""))}
               required
               onChange={onChangeHandler}
               name="phone"
               value={formData.phone}
             />
           </div>
-          {method === "stripe" && (
-            <div className="w-full px-[10px] mb-[20px]">
-              <CardElement
-                options={{
-                  style: {
-                    base: {
-                      color: "#fff", // white text
-                      fontSize: "16px",
-                      "::placeholder": { color: "#ccc" },
-                    },
-                    invalid: { color: "#ff6b6b" },
-                  },
-                }}
-                className="bg-slate-700 p-[10px] rounded-md shadow-sm shadow-[#343434]"
-              />
-            </div>
-          )}
+
+
           <div>
             <button
               type="submit"
@@ -309,6 +257,8 @@ function PlaceOrder() {
           </div>
         </form>
       </div>
+
+      {/* Payment Method Buttons */}
       <div className="lg:w-[50%] w-[100%] min-h-[100%] flex items-center justify-center gap-[30px]">
         <div className="lg:w-[70%] w-[90%] lg:h-[70%] h-[100%] flex items-center justify-center gap-[10px] flex-col">
           <CartTotal />
@@ -319,17 +269,12 @@ function PlaceOrder() {
             <button
               onClick={() => setMethod("stripe")}
               className={`w-[200px] h-[50px] rounded-sm transition-all duration-200 
-                  ${
-                    method === "stripe"
-                      ? "border-[3px] border-blue-900 shadow-lg shadow-blue-500/30"
-                      : "border-[3px] border-blue-900 hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/30"
+                  ${method === "stripe"
+                    ? "border-[3px] border-blue-900 shadow-lg shadow-blue-500/30"
+                    : "border-[3px] border-blue-900 hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/30"
                   }`}
             >
-              <img
-                src={stripe1}
-                alt="Stripe"
-                className="w-full h-full object-contain rounded-sm"
-              />
+              <img src={stripe1} alt="Stripe" className="w-full h-full object-contain rounded-sm" />
             </button>
             <button
               onClick={() => setMethod("cod")}
