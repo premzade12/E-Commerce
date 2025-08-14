@@ -14,8 +14,6 @@ import ProductDetails from './pages/ProductDetails'
 import Cart from './pages/Cart'
 import PlaceOrder from './pages/PlaceOrder'
 import Order from './pages/Order'
-<<<<<<< HEAD
-=======
 import { ToastContainer, toast } from 'react-toastify';
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
@@ -25,23 +23,16 @@ import Verify from './pages/Verify'
 const stripePromise = loadStripe(
   "pk_test_51RvXaHFufNua0lBNgvpJJqI1gbwKTFcQoW5sFXoNSxB0aWoxeJqNXhIhHvKMJThpdbGIQBlKWGhjb2T0wr00YTuD00jycTRjc4"
 );
->>>>>>> f214fbc2aa966f01bc370c6f02777c92dd97920f
 
 function App() {
   let {userData} = useContext(userDataContext)
   let location = useLocation()
-<<<<<<< HEAD
-
-  return (
-    <>
-=======
   
 
 
   return (
     <>
      <ToastContainer/>
->>>>>>> f214fbc2aa966f01bc370c6f02777c92dd97920f
       {userData && (<Nav/>)}
       <Routes>
         <Route path='/login' element={
@@ -64,17 +55,11 @@ function App() {
 
         <Route path='/cart' element={userData ? <Cart/> : <Navigate to={"/login"} state={{from:location.pathname}}/>}/>
 
-<<<<<<< HEAD
-        <Route path='/placeorder' element={userData ? <PlaceOrder/> : <Navigate to={"/login"} state={{from:location.pathname}}/>}/>
-
-        <Route path='/order' element={userData ? <Order/> : <Navigate to={"/login"} state={{from:location.pathname}}/>}/>
-=======
         <Route path='/placeorder' element={userData ? (  <Elements stripe={stripePromise}>   <PlaceOrder /> </Elements> ) : <Navigate to={"/login"} state={{from:location.pathname}}/>}/>
 
         <Route path='/order' element={userData ? <Order/> : <Navigate to={"/login"} state={{from:location.pathname}}/>}/>
 
         <Route path='/verify' element={userData ? <Verify/> : <Navigate to={"/login"} state={{from:location.pathname}}/>}/>
->>>>>>> f214fbc2aa966f01bc370c6f02777c92dd97920f
       </Routes>
     </>
   )
