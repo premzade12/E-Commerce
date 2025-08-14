@@ -10,28 +10,21 @@
     "preview": "vite preview"
   },
   "dependencies": {
-<<<<<<< HEAD
  
     "@tailwindcss/vite": "^4.1.11",
     "axios": "^1.11.0",
 
     "firebase": "^12.0.0",
- 
-=======
     "@stripe/react-stripe-js": "^3.9.0",
     "@stripe/stripe-js": "^7.8.0",
     "@tailwindcss/vite": "^4.1.11",
     "axios": "^1.11.0",
     "firebase": "^12.0.0",
->>>>>>> f214fbc2aa966f01bc370c6f02777c92dd97920f
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.7.1",
-<<<<<<< HEAD
-=======
     "react-toastify": "^11.0.5",
->>>>>>> f214fbc2aa966f01bc370c6f02777c92dd97920f
     "tailwindcss": "^4.1.11"
   },
   "devDependencies": {
@@ -45,8 +38,4 @@
     "globals": "^16.3.0",
     "vite": "^7.0.4"
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> f214fbc2aa966f01bc370c6f02777c92dd97920f
