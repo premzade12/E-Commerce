@@ -91,4 +91,8 @@ function Orders() {
   )
 }
 
+<<<<<<< HEAD
 export default Orders
+=======
+export default Orders
+>>>>>>> f214fbc2aa966f01bc370c6f02777c92dd97920f
