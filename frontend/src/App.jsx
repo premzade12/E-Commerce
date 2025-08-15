@@ -13,7 +13,7 @@ import Collections from './pages/Collections'
 import ProductDetails from './pages/ProductDetails'
 import Cart from './pages/Cart'
 import PlaceOrder from './pages/PlaceOrder'
-import Order from './pages/Order'
+import Order from './pages/Order.jsx'
 import { ToastContainer, toast } from 'react-toastify';
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
