@@ -1,7 +1,15 @@
 import User from "../model/userModel.js";
 import validator from "validator";
 import bcrypt from "bcrypt";
-import { genToken,genToken1 } from "../config/token.js";
+import { genToken, genToken1 } from "../config/token.js";
+
+const cookieOptions = {
+  httpOnly: true,
+  secure: true,
+  sameSite: "None",
+  path: "/", // very important for cross-site
+  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+};
 
 export const registration = async (req, res) => {
   try {
@@ -13,27 +21,18 @@ export const registration = async (req, res) => {
     if (!validator.isEmail(email)) {
       return res.status(400).json({ message: "Enter Valid Email" });
     }
-
     if (password.length < 8) {
-        console.log("Enter Strong Password");
-      return res.status(400).json({ message: "Enter Stong Password" });
+      return res.status(400).json({ message: "Enter Strong Password" });
     }
+
     let hashPassword = await bcrypt.hash(password, 10);
-
     const user = await User.create({ name, email, password: hashPassword });
-
     const token = await genToken(user._id);
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "None",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
-
-    return res.status(201).json(user);
+    res.cookie("token", token, cookieOptions);
+    return res.status(201).json({ user, token });
   } catch (error) {
-    console.log("registration error");
+    console.log("registration error", error);
     return res.status(500).json({ message: `Registration error ${error}` });
   }
 };
@@ -49,76 +48,54 @@ export const login = async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({ message: "Incorrect Password" });
     }
+
     const token = await genToken(user._id);
-
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "None",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
-
-    return res.status(201).json(user);
+    res.cookie("token", token, cookieOptions);
+    return res.status(200).json({ user, token });
   } catch (error) {
-    console.log("Login error");
+    console.log("Login error", error);
     return res.status(500).json({ message: `Login error ${error}` });
   }
 };
 
 export const logOut = async (req, res) => {
   try {
-    res.clearCookie("token");
+    res.clearCookie("token", { ...cookieOptions, maxAge: 0 });
     return res.status(200).json({ message: "Logout Successfull" });
   } catch (error) {
-    console.log("LogOut error");
+    console.log("LogOut error", error);
     return res.status(500).json({ message: `LogOut error ${error}` });
   }
 };
 
-export const googleLogin = async(req,res) => {
-    try {
-    const { name, email} = req.body;
+export const googleLogin = async (req, res) => {
+  try {
+    const { name, email } = req.body;
     let user = await User.findOne({ email });
     if (!user) {
-      user = await User.create({name, email})
+      user = await User.create({ name, email });
     }
-    
+
     const token = await genToken(user._id);
-
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "None",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
-
-    return res.status(200).json(user);
-
+    res.cookie("token", token, cookieOptions);
+    return res.status(200).json({ user, token });
   } catch (error) {
-    console.log("Google Login error");
+    console.log("Google Login error", error);
     return res.status(500).json({ message: `Google Login error ${error}` });
   }
-}
+};
 
-export const adminLogin = async (req,res) => {
+export const adminLogin = async (req, res) => {
   try {
-    let {email,password}=req.body
-    if(email=== process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD){
-
-    const token = await genToken1(email)
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "None",
-      maxAge: 1 * 24 * 60 * 60 * 1000,
-    });
-
-    return res.status(200).json(token);
+    let { email, password } = req.body;
+    if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
+      const token = await genToken1(email);
+      res.cookie("token", token, { ...cookieOptions, maxAge: 1 * 24 * 60 * 60 * 1000 }); // 1 day
+      return res.status(200).json({ token });
     }
-  return res.status(400).json({message:"Invalid credentials"})
-    
-  }  catch (error) {
-    console.log("Admin Login error");
+    return res.status(400).json({ message: "Invalid credentials" });
+  } catch (error) {
+    console.log("Admin Login error", error);
     return res.status(500).json({ message: `Admin Login error ${error}` });
   }
-}
+};
