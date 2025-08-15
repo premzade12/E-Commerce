@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Title from './Title';
 import { shopDataContext } from '../context/ShopContext';
-import { authDataContext } from '../context/authContext';
+import { authDataContext } from '../context/AuthContext';
 import axios from 'axios';
 
 function Order() {
@@ -121,3 +121,4 @@ function Order() {
 }
 
 export default Order;
+
