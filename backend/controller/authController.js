@@ -29,7 +29,6 @@ export const registration = async (req, res) => {
       secure: true,
       sameSite: "None",
       maxAge: 7 * 24 * 60 * 60 * 1000,
-      domain: ".onrender.com",
     });
 
     return res.status(201).json(user);
@@ -57,7 +56,6 @@ export const login = async (req, res) => {
       secure: true,
       sameSite: "None",
       maxAge: 7 * 24 * 60 * 60 * 1000,
-      domain: ".onrender.com",
     });
 
     return res.status(201).json(user);
@@ -92,7 +90,6 @@ export const googleLogin = async(req,res) => {
       secure: true,
       sameSite: "None",
       maxAge: 7 * 24 * 60 * 60 * 1000,
-      domain: ".onrender.com",
     });
 
     return res.status(200).json(user);
@@ -114,7 +111,6 @@ export const adminLogin = async (req,res) => {
       secure: true,
       sameSite: "None",
       maxAge: 1 * 24 * 60 * 60 * 1000,
-      domain: ".onrender.com",
     });
 
     return res.status(200).json(token);
