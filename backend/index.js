@@ -23,7 +23,7 @@ app.use((req, res, next) => {
   next();
 });
 app.use(cors({
-    origin:["https://e-commerce-frontend-934t.onrender.com","http://localhost:5174"],
+    origin:["https://e-commerce-frontend-934t.onrender.com","https://e-commerce-admin-pymb.onrender.com"],
     credentials:true
 }));
 
