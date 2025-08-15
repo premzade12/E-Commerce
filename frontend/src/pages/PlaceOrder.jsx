@@ -3,7 +3,7 @@ import Title from "./Title";
 import CartTotal from "../component/CartTotal.jsx";
 import stripe1 from "../assets/stripe.png";
 import { shopDataContext } from "../context/ShopContext.jsx";
-import { authDataContext } from "../context/authContext.jsx";
+import { authDataContext } from "../context/AuthContext.jsx";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
